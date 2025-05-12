@@ -224,11 +224,11 @@ export default function Game() {
       socket.off("gameOver");
       socket.off("leaderboard");
     };
-  }, []);
+  });
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  });
 
   const sendMessage = () => {
     if (!msg) return;
