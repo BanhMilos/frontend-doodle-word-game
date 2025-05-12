@@ -330,7 +330,7 @@ export default function Game() {
             <div className="room show">
               <div className="settings-form">
                 <div className="key">
-                  <img src={AppImages.Name} />
+                  <img src={AppImages.Name} alt=""/>
                   <span data-translate="text">Roomname :</span>
                 </div>
                 <div className="value">
@@ -343,7 +343,7 @@ export default function Game() {
                   />
                 </div>
                 <div className="key">
-                  <img src={AppImages.Player} />
+                  <img src={AppImages.Player} alt=""/>
                   <span data-translate="text">Players</span>
                 </div>
                 <div className="value">
@@ -361,7 +361,7 @@ export default function Game() {
                   </select>
                 </div>
                 <div className="key">
-                  <img src={AppImages.Language} />
+                  <img src={AppImages.Language} alt=""/>
                   <label>Language</label>
                 </div>
                 <div className="value">
@@ -376,7 +376,7 @@ export default function Game() {
                   </select>
                 </div>
                 <div className="key">
-                  <img src={AppImages.DrawTime} />
+                  <img src={AppImages.DrawTime} alt=""/>
                   <label>Draw time</label>
                 </div>
                 <div className="value">
@@ -394,7 +394,7 @@ export default function Game() {
                   </select>
                 </div>
                 <div className="key">
-                  <img src={AppImages.Round} />
+                  <img src={AppImages.Round} alt=""/>
                   <label>Rounds</label>
                 </div>
                 <div className="value">
@@ -412,7 +412,7 @@ export default function Game() {
                   </select>
                 </div>
                 <div className="key">
-                  <img src={AppImages.WordCount} />
+                  <img src={AppImages.WordCount} alt=""/>
                   <label>Word Count</label>
                 </div>
                 <div className="value">
@@ -430,7 +430,7 @@ export default function Game() {
                   </select>
                 </div>
                 <div className="key">
-                  <img src={AppImages.Hints} />
+                  <img src={AppImages.Hints} alt=""/>
                   <label>Hints</label>
                 </div>
                 <div className="value">
