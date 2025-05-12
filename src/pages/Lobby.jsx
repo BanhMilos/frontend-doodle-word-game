@@ -61,7 +61,7 @@ export default function Lobby() {
       socket.off("connect", onConnect);
       socket.off("noRoomAvailable", noRoomAvailable);
     };
-  }, [user]);
+  });
 
   const handleApproveJoin = (data) => {
     console.log("Joined room:", data.roomId);
