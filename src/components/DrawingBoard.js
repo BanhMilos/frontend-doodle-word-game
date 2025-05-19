@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { Stage, Layer, Line, Rect, Circle } from "react-konva";
 import AppColors from "core/constants/AppColors";
 import AppImages from "core/constants/AppImages";
-import { clear } from "@testing-library/user-event/dist/clear";
 
 const DrawingBoard = ({ disableTool, showTooltip, socket, roomId, username }) => {
   const [lines, setLines] = useState([]);
