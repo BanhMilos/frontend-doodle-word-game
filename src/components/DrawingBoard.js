@@ -3,7 +3,13 @@ import { Stage, Layer, Line, Rect, Circle } from "react-konva";
 import AppColors from "core/constants/AppColors";
 import AppImages from "core/constants/AppImages";
 
-const DrawingBoard = ({ disableTool, showTooltip, socket, roomId, username }) => {
+const DrawingBoard = ({
+  disableTool,
+  showTooltip,
+  socket,
+  roomId,
+  username,
+}) => {
   const [lines, setLines] = useState([]);
   const [color, setColor] = useState("black");
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
