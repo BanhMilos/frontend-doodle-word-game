@@ -152,7 +152,6 @@
   color: #f0f0f0;
   position: relative;
   height: 100%;
-  width: 100%;
   padding: 6px;
   gap: 6px;
 }
@@ -179,7 +178,7 @@
 }
 .settings-form .value input {
   font: inherit;
-  width: 94%;
+  width: 95%;
   color: #2c2c2c;
   background-color: #ffffff;
   border: 1px solid #707070;
@@ -191,7 +190,7 @@
 }
 .room select {
   font: inherit;
-  width: 98%;
+  width: 99%;
   color: #2c2c2c;
   background-color: #ffffff;
   border: 1px solid #707070;
@@ -399,8 +398,11 @@
 }
 .settings-buttons {
   display: flex;
-  gap: 10px;        
+  gap: 10px;
   width: 100%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .settings-buttons button {

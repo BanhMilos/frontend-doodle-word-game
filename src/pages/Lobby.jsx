@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useStore from "../store";
 import "../styles/lobby.css";
 import { useAuth } from "../context/AuthContext";
@@ -20,53 +20,59 @@ export default function Lobby() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const axiosAuth = useAxiosAuth();
+  
+  const handleApproveJoin = useCallback((data) => {
+  console.log("Joined room:", data.roomId);
+  navigate("/game", { state: { from: "play" } });
+}, [navigate]);
 
-  useEffect(() => {
-    console.log("LOG : effect run");
-    const fetchData = async () => {
-      try {
-        const response = await axiosAuth.get("api/profile", {
-          withCredentials: true,
-        });
-        if (response.status !== 200) return;
-        const {
-          player,
-          user: { name },
-        } = response.data;
-        setName(player.username);
-        setAvatarIndex(avatars.indexOf(player.avatar));
-        setUser(name, player.username, player.avatar);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (!user) {
-      navigate("/login");
+useEffect(() => {
+  console.log("LOG : effect run");
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosAuth.get("api/profile", {
+        withCredentials: true,
+      });
+      if (response.status !== 200) return;
+      console.log(`${JSON.stringify(response.data)}`);
+      const {
+        player,
+        user: { name },
+      } = response.data;
+      setName(player.username);
+      setAvatarIndex(avatars.indexOf(player.avatar));
+      setUser(name, player.username, player.avatar);
+    } catch (error) {
+      console.log(error);
     }
-    fetchData();
-    const onConnect = () => {
-      console.log("connected with id", socket.id);
-    };
-    
-    const noRoomAvailable = ({ message }) => {
-      alert(message);
-    };
-
-    socket.on("connect", onConnect);
-    socket.on("noRoomAvailable", noRoomAvailable);
-    socket.once("approveJoin", handleApproveJoin);
-
-    return () => {
-      socket.off("approveJoin", handleApproveJoin);
-      socket.off("connect", onConnect);
-      socket.off("noRoomAvailable", noRoomAvailable);
-    };
-  });
-
-  const handleApproveJoin = (data) => {
-    console.log("Joined room:", data.roomId);
-    navigate("/game");
   };
+
+  if (!user) {
+    navigate("/login");
+  }
+
+  fetchData();
+
+  const onConnect = () => {
+    console.log("connected with id", socket.id);
+  };
+
+  const noRoomAvailable = ({ message }) => {
+    alert(message);
+  };
+
+  socket.on("connect", onConnect);
+  socket.on("noRoomAvailable", noRoomAvailable);
+  socket.once("approveJoin", handleApproveJoin);
+
+  return () => {
+    socket.off("approveJoin", handleApproveJoin);
+    socket.off("connect", onConnect);
+    socket.off("noRoomAvailable", noRoomAvailable);
+  };
+}, [user, navigate, handleApproveJoin]);
+
 
   const handlePlay = async () => {
     if (name) {
@@ -81,13 +87,15 @@ export default function Lobby() {
         socket.emit("joinRoom", { username: name, roomId });
       } catch (error) {
         console.log(error);
-        return alert(error);
+        window.location.reload();
+        alert(error);
+        return window.location.reload();
       } finally {
         setIsLoading(false);
       }
     } else {
       alert("Please enter your name");
-    } 
+    }
   };
 
   const handleCreatePrivateRoom = async () => {
@@ -98,8 +106,7 @@ export default function Lobby() {
         { username: name, avatar: avatars[avatarIndex], socketID: socket.id },
         { withCredentials: true }
       );
-
-      navigate("/game");
+      navigate("/game", { state: { from: "createRoom" } });
     } catch (error) {
       console.log(error);
       return alert(error);
@@ -118,10 +125,10 @@ export default function Lobby() {
   const handleNextAvatar = () => {
     setAvatarIndex((prev) => (prev === avatars.length - 1 ? 0 : prev + 1));
   };
-  
+
   return (
     <div className="lobby-container">
-      {isLoading && <LoadingIndicator/>}
+      {isLoading && <LoadingIndicator />}
       <div className="lobby-header">
         {username && <div className="user-display">👤 {username}</div>}
         <button className="logout-button" onClick={handleLogout}>
@@ -146,7 +153,7 @@ export default function Lobby() {
         {/* Input mới cho Room ID */}
         <input
           value={roomId}
-          onChange={(e) => setRoomId(e.target.value)}
+          onChange={(e) => setRoomId(e.target.value.trim())}
           placeholder="Enter Room ID (optional)"
           className="room-input"
         />
@@ -170,7 +177,7 @@ export default function Lobby() {
           Create Private Room
         </button>
       </div>
-      <HowToPlay/>
+      <HowToPlay />
     </div>
   );
 }
