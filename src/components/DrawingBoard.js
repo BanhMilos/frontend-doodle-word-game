@@ -84,7 +84,7 @@ const DrawingBoard = ({ disableTool, showTooltip, socket, roomId, username }) =>
       socket.off("drawing");
       socket.off("clearCanvas");
     };
-  }, []);
+  }, [socket, username]);
 
   const handleColorTooltip = (color) => {
     return `Current color: ${color}`;

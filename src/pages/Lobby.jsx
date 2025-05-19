@@ -71,7 +71,7 @@ useEffect(() => {
     socket.off("connect", onConnect);
     socket.off("noRoomAvailable", noRoomAvailable);
   };
-}, [user, navigate, handleApproveJoin]);
+}, [user, navigate, handleApproveJoin, axiosAuth, setUser]);
 
 
   const handlePlay = async () => {
