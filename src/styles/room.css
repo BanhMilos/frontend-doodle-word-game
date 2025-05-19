@@ -2,14 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 8px;
-  margin-right: 8px;
 }
 #game-wrapper {
   height: 100%;
   font-size: 14px;
   display: grid;
-  gap: 6px;
   grid-template-areas:
     "logo    logo   logo"
     "bar     bar    bar "
@@ -42,6 +39,7 @@
   border-radius: 3px;
 }
 #game-clock {
+  background-repeat: no-repeat;
   pointer-events: none;
   position: absolute;
   width: 64px;
@@ -390,6 +388,11 @@
   overflow-y: auto;
   color: #000000;
 }
+
+#game-chat-input-mobile {
+  display: none;
+}
+
 .chat-input {
   border: none;
   padding: 5px;
@@ -398,42 +401,429 @@
 }
 .settings-buttons {
   display: flex;
-  gap: 10px;
-  width: 100%;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
+  gap: 5px;
 }
 
 .settings-buttons button {
-  flex: 1;           
-  padding: 10px 0;  
-  font-size: 16px;   
-  border: none;     
+  flex: 1;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
   border-radius: 5px;
-  cursor: pointer;   
-  transition: background-color 0.3s ease; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .settings-buttons button:first-child {
   margin-left: 5px;
-  background-color: #4CAF50; 
+  background-color: #4caf50;
   color: white;
 }
 
 .settings-buttons button:last-child {
   margin-right: 5px;
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
 }
 
 .settings-buttons button:hover {
-  opacity: 0.8;        
+  opacity: 0.8;
 }
 
 .settings-buttons button:disabled {
-  background-color: #ccc;  
-  color: #666;            
-  cursor: not-allowed;     
-  opacity: 0.6;            
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  #game-room {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 480px;
+  }
+  #game-wrapper {
+    height: 100%;
+    width: 100%;
+    grid-template-areas:
+      "bar     bar"
+      "canvasA canvasB"
+      "toolsA  toolsB"
+      "players chat"
+      "input   input";
+    grid-template-columns: calc(50% - var(--BORDER_GAP) / 2) calc(
+        50% - var(--BORDER_GAP) / 2
+      );
+    grid-template-rows: var(--UNIT) min-content var(--UNIT) 1fr min-content;
+    font-size: 2.5vw;
+  }
+  #game-logo {
+    grid-area: logo;
+    display: none;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 90px;
+  }
+  #game-logo img {
+    width: 320px;
+    height: auto;
+    filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.25));
+  }
+  #game-bar {
+    grid-area: bar;
+    height: 30px;
+    font-size: 1em;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 3px;
+  }
+  #game-clock {
+    top: calc(10vw * -0.02);
+    left: calc(10vw * 0.2);
+    width: calc(10vw * 0.75);
+    height: calc(10vw * 0.75);
+    padding-top: calc(10vw * 0.22);
+    line-height: calc(10vw * 0.45);
+    font-size: 0.8em;
+    position: absolute;
+  }
+  #game-round {
+    font-size: 0.8em;
+    top: unset;
+    left: 0;
+    bottom: 0;
+    width: unset;
+  }
+  #game-word {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .description {
+    width: 100%;
+    font-size: 1em;
+    color: #363636;
+  }
+  #game-players {
+    grid-area: toolsA/toolsA/players/players;
+    width: 100%;
+  }
+  #game-players .players-list {
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  #game-players-footer {
+    display: none;
+  }
+  #game-canvas {
+    grid-area: canvasA/canvasA/canvasB/canvasB;
+  }
+  #game-canvas .overlay {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(61, 62, 68);
+  }
+  #game-canvas .overlay-content {
+    font-size: 1em;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #game-canvas .room.show {
+    display: flex;
+  }
+  #game-canvas .room {
+    font-size: 1em;
+    padding: 0;
+  }
+  .settings-form {
+    grid-template-columns: 3fr 2fr 3fr 2fr;
+  }
+  .settings-form .key {
+    display: flex;
+    align-items: center;
+  }
+  .settings-form .key img {
+    height: 2.3em;
+    width: 2.3em;
+    vertical-align: middle;
+    margin-left: 0px;
+  }
+  .settings-form .key span {
+    margin-left: 6px;
+    flex: 0 0 auto;
+  }
+  .settings-form .value input {
+    font: inherit;
+    width: 83%;
+    color: #2c2c2c;
+    background-color: #ffffff;
+    border: 1px solid #707070;
+    border-radius: 6px;
+    padding: 0.2em 0.5em;
+    transition: background-color 0.12s ease, border-color 0.12s ease;
+    height: 90%;
+    font-size: 1em;
+  }
+  .room select {
+    font: inherit;
+    width: 99%;
+    color: #2c2c2c;
+    background-color: #ffffff;
+    border: 1px solid #707070;
+    border-radius: 6px;
+    padding: 0.2em 0.5em;
+    transition: background-color 0.12s ease, border-color 0.12s ease;
+    height: 100%;
+    font-size: 1em;
+  }
+  #game-chat {
+    grid-area: toolsB/toolsB/chat/chat;
+    width: 100%;
+  }
+  #game-chat-input-mobile {
+    font-size: 1.4em;
+    display: unset;
+    grid-area: input;
+  }
+  #game-chat-input-mobile .chat-form {
+    padding: 0;
+    position: relative;
+  }
+  #game-chat-input-mobile input {
+    text-align: center;
+    border: none;
+    font: inherit;
+    flex: 0 0 auto;
+    height: 2.2em;
+    width: 100%;
+    padding: 0.2em;
+    padding-right: 0.2em;
+    padding-right: 2em;
+  }
+  .header {
+    padding: 10px;
+    background: #4682b4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+    margin: 0;
+  }
+
+  .room-id {
+    font-size: 1rem;
+    color: #fff;
+    background: #32cd32;
+    padding: 2px 8px;
+    border-radius: 5px;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .game-info {
+    display: flex;
+    gap: 20px;
+    font-size: 1.2rem;
+  }
+
+  .player-count {
+    background: #fff;
+    color: #000;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+
+  .word-hint {
+    letter-spacing: 5px;
+    font-weight: bold;
+  }
+
+  .timer {
+    font-weight: bold;
+  }
+
+  .main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .left-panel {
+    width: 20%;
+    padding: 10px;
+    background: #4682b4;
+    overflow-y: auto;
+  }
+
+  .player {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 5px;
+    background: #fff;
+    color: #000;
+    border-radius: 5px;
+  }
+
+  .player-rank {
+    margin-right: 5px;
+    font-weight: bold;
+  }
+
+  .player-avatar {
+    font-size: 1.5rem;
+    margin-right: 5px;
+  }
+
+  .player-name {
+    flex: 1;
+  }
+
+  .player-score {
+    margin-right: 5px;
+  }
+
+  .status {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+
+  .status.drawing {
+    background: #32cd32;
+  }
+
+  .status.guessed {
+    background: #ff4500;
+  }
+
+  .current-player {
+    background: #d3d3d3;
+  }
+
+  .center-panel {
+    flex: 1;
+    display: flex;
+    padding: 10px;
+  }
+
+  .reaction-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .thumbs-up,
+  .thumbs-down {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .canvas-placeholder {
+    flex: 1;
+    background: #fff;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+  }
+
+  .right-panel {
+    width: 20%;
+    padding: 10px;
+    background: #4682b4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+
+  .chat-message {
+    padding: 5px;
+    word-wrap: break-word;
+  }
+
+  .chat-message.highlight {
+    background: #32cd32;
+    border-radius: 5px;
+  }
+
+  .message-username {
+    font-weight: bold;
+  }
+  #game-chat .chat-content {
+    flex: 1 1 auto;
+    height: 250px;
+    padding-top: 0.2em;
+    word-wrap: break-word;
+    overflow-y: auto;
+    color: #000000;
+  }
+  .chat-input {
+    display: none;
+  }
+
+  .settings-buttons button {
+    font-size: 1.2em;
+    padding: 4px;
+  }
+
+  .settings-buttons button:first-child {
+    margin-left: 5px;
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .settings-buttons button:last-child {
+    margin-right: 5px;
+    background-color: #008cba;
+    color: white;
+  }
+
+  .settings-buttons button:hover {
+    opacity: 0.8;
+  }
+
+  .settings-buttons button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 }

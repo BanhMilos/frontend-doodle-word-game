@@ -372,16 +372,26 @@ export default function Game() {
                   {p.username === playerName && " (You)"}
                 </span>
                 <span className="player-score">{p.score ?? 0}</span>
-                <span
-                  className={`status ${
-                    p.username === "Ayush Sharma" ? "drawing" : "guessed"
-                  }`}
-                ></span>
               </div>
             ))}
           </div>
         </div>
         <div id="game-players-footer"></div>
+        <div id="game-chat-input-mobile">
+          <div className="chat-form">
+            <input
+            className="chat-input-mobile"
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                sendMessage();
+              }
+            }}
+            placeholder="Type your guess..."
+          />
+          </div>
+        </div>
         <div id="game-canvas">
           <DrawingBoard
             disableTool={disableTool}

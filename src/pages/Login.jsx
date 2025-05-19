@@ -42,7 +42,6 @@ const Login = () => {
       <div className="form-container">
         <div className="form-group">
           <input
-            className="w-full px-3 py-2 rounded text-black"
             type="text"
             placeholder="Username"
             value={username}
@@ -51,7 +50,6 @@ const Login = () => {
         </div>
         <div className="form-group">
           <input
-            className="w-full px-3 py-2 rounded text-black"
             type="password"
             placeholder="Password"
             value={password}

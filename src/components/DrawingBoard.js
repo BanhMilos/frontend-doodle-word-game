@@ -92,10 +92,8 @@ const DrawingBoard = ({ disableTool, showTooltip, socket, roomId, username }) =>
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        backgroundColor: "white",
+        width: "100%",
+        height: "100%",
       }}
     >
       <div style={tooltipStyles}>

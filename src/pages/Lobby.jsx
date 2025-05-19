@@ -132,10 +132,9 @@ useEffect(() => {
       <div className="lobby-header">
         {username && <div className="user-display">👤 {username}</div>}
         <button className="logout-button" onClick={handleLogout}>
-          Log Out
+          Log out
         </button>
       </div>
-
       <img src={AppImages.Logo} alt="Logo" className="logo" />
       <div className="lobby-form">
         <div className="input-row">
